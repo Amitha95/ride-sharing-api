@@ -11,7 +11,8 @@ class UserSerializer(serializers.ModelSerializer):
 class RideSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ride
-        fields = ['pickup_location', 'dropoff_location', 'pickup_latitude', 'pickup_longitude', 'status', 'rider']
+        fields = ['id', 'rider', 'driver', 'pickup_location', 'dropoff_location',
+            'pickup_latitude', 'pickup_longitude', 'current_latitude', 'current_longitude', 'status']
         extra_kwargs = {'rider': {'read_only': True}}  # Ensure 'rider' is read-only
 
     def create(self, validated_data):
@@ -19,3 +20,4 @@ class RideSerializer(serializers.ModelSerializer):
         if request and hasattr(request, 'user'):
             validated_data['rider'] = request.user
         return super().create(validated_data)
+

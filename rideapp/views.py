@@ -62,8 +62,39 @@ class RideViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        print(f"Creating ride for user: {self.request.user}")  # Debug log
+        print(f"Creating ride for user: {self.request.user}")
         serializer.save(rider=self.request.user)
+    
+    @action(detail=True, methods=['post'])
+    def accept_ride(self, request, pk=None):
+        """
+        Driver accepts the ride.
+        """
+        ride = self.get_object()
+
+        if ride.driver is not None:
+            return Response({"error": "Ride is already accepted"}, status=status.HTTP_400_BAD_REQUEST)
+
+        ride.driver = request.user
+        ride.status = "accepted"
+        ride.save()
+        return Response({"message": "Ride accepted successfully", "ride": RideSerializer(ride).data})
+    
+    @action(detail=True, methods=['patch'])
+    def update_location(self, request, pk=None):
+        """
+        Driver updates real-time location during the ride.
+        """
+        ride = self.get_object()
+
+        if ride.driver != request.user:
+            return Response({"error": "Unauthorized"}, status=status.HTTP_403_FORBIDDEN)
+
+        ride.current_latitude = request.data.get("latitude")
+        ride.current_longitude = request.data.get("longitude")
+        ride.status = "ongoing"
+        ride.save()
+        return Response({"message": "Location updated", "ride": RideSerializer(ride).data})
 
     @action(detail=True, methods=['patch'])
     def update_status(self, request, pk=None):
