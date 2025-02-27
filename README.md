@@ -241,3 +241,28 @@ Rider registers and logs in
 → Ride status updates (e.g., In Progress → Completed)  
 → View ride history  
 ```
+
+---
+
+## 🧪 Testing  
+
+1️⃣ Ride Matching Algorithm Test
+
+Matches a driver to a ride via POST /api/rides/match_ride/
+
+2️⃣ Driver Accepting Ride Test
+
+Driver accepts a ride via POST /api/rides/{id}/accept_ride/
+
+3️⃣ Driver Location Updates Test
+
+Simulates a driver updating their location via PATCH /api/rides/{id}/update_location/
+
+4️⃣ Ride Status Update Test
+
+Ensures ride status transitions correctly (e.g., "completed")
+
+5️⃣ Ride Tracking Simulation Test
+
+Simulates multiple location updates during a ride
+```
