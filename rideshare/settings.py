@@ -58,7 +58,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
+
 
 ROOT_URLCONF = 'rideshare.urls'
 
@@ -80,7 +82,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rideshare.wsgi.application'
 
-ASGI_APPLICATION = 'rideshare.routing.application'
+ASGI_APPLICATION = 'rideshare.asgi.application'
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer",
